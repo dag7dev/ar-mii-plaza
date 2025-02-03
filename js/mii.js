@@ -1,12 +1,11 @@
 const miiEntities = [];
-const MIN_DISTANCE = 0.6; // Distanza minima tra i Mii
-const MOVE_SPEED = 2000; // Durata del movimento in millisecondi
+const MIN_DISTANCE = 0.6;
+const MOVE_SPEED = 2000;i
 let gridMode = false;
 let meetMode = false; 
 let model = document.querySelector("#mii");
 let selectedMii = null;
 
-// Chiamare la funzione ogni volta che lo schermo ruota
 window.onload = checkSavedMii;
 
 // Night mode: yellow light after 6pm
@@ -131,7 +130,6 @@ function arrangeMiiGrid() {
 
             let currentPos = mii.getAttribute("position");
 
-            // New movement position
             let dx = newX - currentPos.x;
             let dz = newZ - currentPos.z;
             let angle = Math.atan2(dx, dz) * (180 / Math.PI);
@@ -260,19 +258,17 @@ function getValidMovePosition(mii) {
     let valid = false;
     let currentPosition = mii.getAttribute("position");
 
-    while (!valid && attempts < 100) { // Aumentiamo il numero di tentativi
-        let offset = (Math.random() * 1) + 0.5; // Movimento più ampio
+    while (!valid && attempts < 100) { 
+        let offset = (Math.random() * 1) + 0.5;
         let angle = Math.random() * Math.PI * 2;
         newX = parseFloat(currentPosition.x) + Math.cos(angle) * offset;
         newZ = parseFloat(currentPosition.z) + Math.sin(angle) * offset;
         valid = true;
 
-        // Verifica che il Mii non esca dai confini
         if (newX > 2 || newX < -2 || newZ > 2 || newZ < -2) {
             valid = false;
         }
 
-        // Controllo di collisione con altri Mii
         for (let otherMii of miiEntities) {
             if (otherMii !== mii) {
                 let pos = otherMii.getAttribute("position");
@@ -325,11 +321,9 @@ function toggleMeetMii() {
             const angleRad = Math.atan2(pos2.x - pos1.x, pos2.z - pos1.z);
             const angleDeg = angleRad * (180 / Math.PI);
 
-            // **Fase 1: Si guardano**
             mii1.setAttribute("rotation", `0 ${angleDeg} 0`);
             mii2.setAttribute("rotation", `0 ${angleDeg + 180} 0`);
 
-            // **Aspetta 1 secondo, poi si muovono**
             setTimeout(() => {
                 console.log(`Meet Mii: Coppia ${i / 2 + 1} si muove!`);
 
